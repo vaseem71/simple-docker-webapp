@@ -31,8 +31,10 @@ pipeline {
 
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar,target/*.war',
-                                 allowEmptyArchive: false
+                archiveArtifacts(
+                    artifacts: 'target/*.jar,target/*.war',
+                    allowEmptyArchive: false
+                )
             }
         }
     }
