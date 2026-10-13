@@ -19,12 +19,6 @@
             }
         }
 
-        stage('Intentional Failure Test') {
-            steps {
-                sh 'exit 1'
-            }
-        }
-
         stage('Archive Artifact') {
             steps {
                 archiveArtifacts(
