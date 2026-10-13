@@ -17,9 +17,15 @@ pipeline {
             }
         }
 
-        stage('Build and Test') {
+        stage('Build') {
             steps {
-                sh 'mvn -B -ntp clean verify -DskipTests'
+                sh 'mvn -B -ntp clean package -DskipTests'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn -B -ntp test'
             }
         }
 
@@ -35,6 +41,7 @@ pipeline {
         success {
             echo 'Pipeline completed successfully!'
         }
+
         failure {
             echo 'Pipeline failed. Check Console Output.'
         }
