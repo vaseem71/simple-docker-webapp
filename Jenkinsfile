@@ -1,14 +1,4 @@
 
-pipeline {
-    agent any
-
-    tools {
-        maven 'Maven3'
-    }
-
-    options {
-        timeout(time: 10, unit: 'MINUTES')
-    }
 
     stages {
         stage('Checkout') {
@@ -29,6 +19,12 @@ pipeline {
             }
         }
 
+        stage('Intentional Failure Test') {
+            steps {
+                sh 'exit 1'
+            }
+        }
+
         stage('Archive Artifact') {
             steps {
                 archiveArtifacts(
@@ -38,14 +34,3 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-
-        failure {
-            echo 'Pipeline failed. Check Console Output.'
-        }
-    }
-}
