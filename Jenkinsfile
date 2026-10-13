@@ -1,5 +1,10 @@
+
 pipeline {
     agent any
+
+    tools {
+        maven 'Maven3'
+    }
 
     stages {
         stage('Checkout') {
@@ -10,13 +15,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn -B clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -B test'
             }
         }
 
@@ -25,6 +30,15 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar,target/*.war',
                                  allowEmptyArchive: false
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check Console Output.'
         }
     }
 }
