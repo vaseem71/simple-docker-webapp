@@ -6,6 +6,10 @@ pipeline {
         maven 'Maven3'
     }
 
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,15 +17,9 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                sh 'mvn -B clean package -DskipTests'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn -B test'
+                sh 'mvn -B -ntp clean verify -DskipTests'
             }
         }
 
