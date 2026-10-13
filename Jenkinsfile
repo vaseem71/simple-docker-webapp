@@ -1,4 +1,14 @@
 
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven3'
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
 
     stages {
         stage('Checkout') {
@@ -28,3 +38,14 @@
             }
         }
     }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check Console Output.'
+        }
+    }
+}
